@@ -18,5 +18,5 @@ app.use("/api/v1/orders", ordeRoute)
 
 
 app.listen(8001, () => {
-    console.log("runing ...");
+    console.log("runing .");
 })
