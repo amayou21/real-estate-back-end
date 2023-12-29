@@ -8,7 +8,7 @@ const rout = express.Router()
 rout.route('/')
     .get(getOrders)
     .post(createOrderValidator, createOrder)
-
+    
 rout.route('/:id')
     .get(getOrderValidator, getOrder)
     .put(updateteOrderValidator, updateOrder)

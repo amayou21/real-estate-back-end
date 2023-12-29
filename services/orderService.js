@@ -40,7 +40,6 @@ exports.updateOrder = asyncHandler(async (req, res, next) => {
 // @route      DELETE /api/v1/orders/:id
 // @access     Private
 exports.deleteOrder = asyncHandler(async (req, res, next) => {
-    console.log(req.body);
     const data = await orderModel.findByIdAndDelete(req.params.id)
     if (!data) { next(new ApiError(`no order with this ID :${req.params.id}`, 404)) }
     res.status(200).json({ message: "deleted successfuly!" })

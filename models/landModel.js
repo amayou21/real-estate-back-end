@@ -7,7 +7,8 @@ const landSchema = new mongoose.Schema({
         unique: [true, "land title must be unique"],
         minLength: [3, "Too short land title"],
         maxLength: [32, "Too long land title"],
-    }, slug: {
+    },
+    slug: {
         type: String,
         lowercase: true
     },
