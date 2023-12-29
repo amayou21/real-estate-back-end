@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 
-
 const landSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -26,6 +25,12 @@ const landSchema = new mongoose.Schema({
         length: { max: 1000000000, min: 20 }
 
     },
+    imageCover: {
+        type: String
+    },
+    images: {
+        type: [String]
+    }
 
 }, { timestamps: true })
 

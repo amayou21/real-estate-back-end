@@ -6,10 +6,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: [true, "userID is required"],
     },
-    slug: {
-        type: String,
-        lowercase: true
-    },
+    // slug: {
+    //     type: String,
+    //     lowercase: true
+    // },
     type: {
         type: String,
         required: [true, 'order type is required']
