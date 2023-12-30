@@ -19,7 +19,7 @@ exports.createLandValidator = [
     ,
     check("area")
         .notEmpty()
-        .withMessage("Land type is required")
+        .withMessage("Land area is required")
         .isNumeric()
         .withMessage("land area should be a number")
     ,
@@ -31,12 +31,13 @@ exports.createLandValidator = [
         .withMessage("land price is required")
         .isNumeric()
         .withMessage("land price must be a number")
-        .isLength({ max: 1000000000 })
-        .withMessage("Too long land price")
-        .isLength({ min: 20 })
-        .withMessage("Too short land price")
-    ,
-
+        .custom((value) => {
+            const price = parseFloat(value);
+            if (price < 20 || price > 1000000000) {
+                throw new Error("land price must be between 20 and 1,000,000,000");
+            }
+            return true;
+        }),
     ValidatoreMiddleware,
 ]
 
@@ -51,6 +52,23 @@ exports.updateteLandValidator = [
     check("id")
         .isMongoId()
         .withMessage("invalid id"),
+    check("title")
+        .optional()
+        .custom((val, { req }) => {
+            req.body.slug = slugify(val)
+            return true
+        }),
+    check("price")
+        .optional()
+        .isNumeric()
+        .withMessage("land price must be a number")
+        .custom((value) => {
+            const price = parseFloat(value);
+            if (price < 20 || price > 1000000000) {
+                throw new Error("land price must be between 20 and 1,000,000,000");
+            }
+            return true;
+        }),
     ValidatoreMiddleware,
 ]
 

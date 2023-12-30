@@ -37,12 +37,11 @@ exports.updateLand = asyncHandler(async (req, res, next) => {
         res.status(201).json({ message: "updated successfuly!", data: land })
 })
 
-
 // @desc     delete land
 // @route    DELETE api/v1/lands/:id
 // @access   Private
 exports.deleteLand = asyncHandler(async (req, res, next) => {
     const land = await landModel.findByIdAndDelete(req.params.id)
     !land ? next(new ApiError(`no land with this id ${req.params.id}`)) :
-        res.status(201).json({ message: "deleted successfuly!", land })
+        res.status(201).json({ message: "deleted successfuly!" })
 })

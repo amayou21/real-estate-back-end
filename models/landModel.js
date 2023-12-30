@@ -23,7 +23,8 @@ const landSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: [true, "land price is required"],
-        length: { max: 1000000000, min: 20 }
+        max: [1000000000, "Too longe land price"],
+        min: [20, "Too short land price"]
 
     },
     imageCover: {

@@ -3,6 +3,7 @@ const dotenv = require("dotenv")
 const dbConnection = require("./config/database")
 const ordeRoute = require("./routes/orderRoute")
 const landsRoute = require("./routes/landRoute")
+const homeRoute = require("./routes/homeRoute")
 const globalError = require("./middleware/globallError")
 const ApiError = require("./utility/apiError")
 // create server using express
@@ -19,6 +20,7 @@ app.use(express.json())
 
 app.use("/api/v1/orders", ordeRoute)
 app.use("/api/v1/lands", landsRoute)
+app.use("/api/v1/homes", homeRoute)
 
 app.all("*", (req, res, next) => {
     next(new ApiError(`can't find this rout : ${req.originalUrl}`, 404))
