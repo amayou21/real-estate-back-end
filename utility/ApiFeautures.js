@@ -4,6 +4,7 @@ class apiFeatures {
         this.queryStr = queryStr
     }
 
+    // @desc pagination
     paginate(docemuntCount) {
         const page = this.queryStr.page * 1 || 1
         const limit = this.queryStr.limit * 1 || 5
@@ -28,6 +29,7 @@ class apiFeatures {
 
     }
 
+    // @desc return  limit fields
     limitFields() {
         // // fields
         if (this.queryStr.field) {
@@ -38,7 +40,8 @@ class apiFeatures {
         }
         return this;
     }
-    
+
+    // @desc sorting
     sort() {
         // sorting
         if (this.queryStr.sort) {
@@ -50,6 +53,7 @@ class apiFeatures {
         return this;
     }
 
+    // @desc fieltering
     fielter() {
         // 1) fieltring
         const queryStringObjc = { ...this.queryStr };
