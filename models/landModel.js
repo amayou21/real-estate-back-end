@@ -27,6 +27,11 @@ const landSchema = new mongoose.Schema({
         min: [20, "Too short land price"]
 
     },
+    category: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category',
+        required: [true, "land category is required"]
+    },
     imageCover: {
         type: String
     },

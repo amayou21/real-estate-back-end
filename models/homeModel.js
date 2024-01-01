@@ -48,6 +48,11 @@ const homeSchema = new mongoose.Schema({
     },
     images: {
         type: [String]
+    },
+    category: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category',
+        required:[true,"home category is required"]
     }
 
 }, { timestamps: true })
