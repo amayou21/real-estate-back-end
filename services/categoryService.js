@@ -1,7 +1,39 @@
 const categoryModel = require("../models/categoryModel")
 const asyncHandler = require("express-async-handler")
 const ApiError = require("../utility/apiError")
-const factory = require("./handelFactory")
+const factory = require("./handelFactory");
+const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = function (req, file, cb) {
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true);
+    } else {
+        cb(new ApiError("only images allowed", 400), false);
+    }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter })
+
+
+exports.uploadImage = upload.single("image")
+
+exports.resizeImage = asyncHandler(async (req, res, next) => {
+    const fileName = `category-${uuidv4()}-${Date.now()}.jpeg`;
+    // console.log(req);
+    await sharp(req.file.buffer)
+        .resize(900, 900)
+        .toFormat("jpeg")
+        .jpeg({ quality: 100 })
+        .toFile(`uploads/categories/${fileName}`);
+    // console.log(res.errored);
+    req.body.image = fileName;
+    next();
+});
+
 
 exports.filterObject = asyncHandler(async (req, res, next) => {
     if (req.query.fields) {
