@@ -31,6 +31,7 @@ class apiFeatures {
 
     // @desc return  limit fields
     limitFields() {
+        
         // // fields
         if (this.queryStr.field) {
             const fieldsStr = this.queryStr.field.split(",").join(" ");

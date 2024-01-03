@@ -5,7 +5,6 @@ const {
     getCategory,
     updateCategory,
     deleteCategory,
-    filterObject,
     uploadImage,
     resizeImage
 } = require("../services/categoryService")
@@ -19,7 +18,7 @@ const {
 const rout = express.Router()
 
 rout.route('/')
-    .get(filterObject, getCategories)
+    .get(getCategories)
     .post(uploadImage, resizeImage, createCategoryValidator, createCategory)
 
 rout.route('/:id')

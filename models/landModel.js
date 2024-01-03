@@ -33,7 +33,8 @@ const landSchema = new mongoose.Schema({
         required: [true, "land category is required"]
     },
     imageCover: {
-        type: String
+        type: String,
+        required: [true, "land image cob=ver is required"]
     },
     images: {
         type: [String]

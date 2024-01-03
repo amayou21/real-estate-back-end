@@ -3,6 +3,7 @@ const ValidatoreMiddleware = require("../../middleware/validatorMiddleware");
 const { default: slugify } = require("slugify");
 const categoryModel = require("../../models/categoryModel")
 const landModel =require("../../models/landModel")
+
 exports.createLandValidator = [
     check("title")
         .notEmpty()

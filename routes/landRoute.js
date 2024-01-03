@@ -4,7 +4,9 @@ const {
     getLands,
     getLand,
     updateLand,
-    deleteLand
+    deleteLand,
+    resizeLandImages,
+    uploadLandImages
 } = require("../services/landService")
 const {
     createLandValidator,
@@ -17,7 +19,7 @@ const rout = express.Router()
 
 rout.route('/')
     .get(getLands)
-    .post(createLandValidator, createLand)
+    .post(uploadLandImages,resizeLandImages,createLandValidator, createLand)
 
 rout.route('/:id')
     .get(getLandValidator, getLand)

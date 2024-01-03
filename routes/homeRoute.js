@@ -4,7 +4,9 @@ const {
     getHomes,
     getHome,
     updateHome,
-    deleteHome
+    deleteHome,
+    resizeHomeImages,
+    uploadHomeImages
 } = require("../services/homeService")
 const {
     createHomeValidator,
@@ -17,7 +19,7 @@ const rout = express.Router()
 
 rout.route('/')
     .get(getHomes)
-    .post(createHomeValidator, createHome)
+    .post(uploadHomeImages,resizeHomeImages,createHomeValidator, createHome)
 
 rout.route('/:id')
     .get(getHomeValidator, getHome)
