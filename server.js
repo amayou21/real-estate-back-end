@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express")
 const dotenv = require("dotenv")
 const dbConnection = require("./config/database")
@@ -17,7 +18,7 @@ dbConnection()
 
 // middleware to read data comm's from body
 app.use(express.json())
-
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/v1/orders", ordeRoute)
 app.use("/api/v1/lands", landsRoute)

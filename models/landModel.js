@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { imageUrl } = require("./mongooseMeddleware");
 
 const landSchema = new mongoose.Schema({
     title: {
@@ -41,5 +42,33 @@ const landSchema = new mongoose.Schema({
     }
 
 }, { timestamps: true })
+
+
+// @desc  set image url
+// const imageUrl = (doc) => {
+//     if (doc.imageCover) {
+//       const imageUrl = doc.imageCover;
+//       doc.imageCover = `${process.env.BASE_URL}/lands/${imageUrl}`;
+//     }
+//     if (doc.images) {
+//       const imagesList = [];
+//       doc.images.forEach((element) => {
+//         imagesList.push(`${process.env.BASE_URL}/lands/${element}`);
+//       });
+//       doc.images = imagesList;
+//     }
+//   };
+
+// getOne, getAll and update
+landSchema.post("init", (doc) => {
+    imageUrl(doc,"lands")
+})
+
+
+// create
+landSchema.post("save", (doc) => {
+    imageUrl(doc,"lands")
+});
+
 
 module.exports = mongoose.model('Land', landSchema)

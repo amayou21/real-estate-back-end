@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { imageUrl } = require("./mongooseMeddleware");
 
 const homeSchema = new mongoose.Schema({
     title: {
@@ -52,9 +53,19 @@ const homeSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.ObjectId,
         ref: 'Category',
-        required:[true,"home category is required"]
+        required: [true, "home category is required"]
     }
 
 }, { timestamps: true })
+
+// getOne ,getAll and update
+homeSchema.post("init", (doc) => {
+    imageUrl(doc, "homes");
+});
+
+// create
+homeSchema.post("save", (doc) => {
+    imageUrl(doc);
+});
 
 module.exports = mongoose.model('Home', homeSchema)
