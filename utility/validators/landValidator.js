@@ -7,36 +7,43 @@ const landModel =require("../../models/landModel")
 exports.createLandValidator = [
     check("title")
         .notEmpty()
-        .withMessage(">> land title is required")
+        .withMessage("land title is required")
         .isString()
-        .withMessage(">> land title shoud be a string value")
+        .withMessage("land title shoud be a string value")
         .isLength({ max: 32 })
-        .withMessage(">> Too long land title")
+        .withMessage("Too long land title")
         .isLength({ min: 3 })
-        .withMessage(">> Too short land title")
+        .withMessage("Too short land title")
         .custom((val, { req }) => {
             req.body.slug = slugify(val)
             return true
         })
+        .custom(async (value) => {
+            const existingCategory = await categoryModel.findOne({ name: value });
+            if (existingCategory) {
+                throw new Error("This land already exists");
+            }
+            return true;
+        })
     ,
     check("area")
         .notEmpty()
-        .withMessage(">> Land area is required")
+        .withMessage("Land area is required")
         .isNumeric()
-        .withMessage(">> land area should be a number")
+        .withMessage("land area should be a number")
     ,
     check("location")
-        .notEmpty().withMessage(">> land location is required")
-        .isString().withMessage(">> land location must be a string value"),
+        .notEmpty().withMessage("land location is required")
+        .isString().withMessage("land location must be a string value"),
     check("price")
         .notEmpty()
-        .withMessage(">> land price is required")
+        .withMessage("land price is required")
         .isNumeric()
-        .withMessage(">> land price must be a number")
+        .withMessage("land price must be a number")
         .custom((value) => {
             const price = parseFloat(value);
             if (price < 20 || price > 1000000000) {
-                throw new Error(">> land price must be between 20 and 1,000,000,000");
+                throw new Error("land price must be between 20 and 1,000,000,000");
             }
             return true;
         }),
@@ -45,7 +52,7 @@ exports.createLandValidator = [
         .withMessage("land category is required")
         .custom((async (val) => {
             const category = await categoryModel.findById(val)
-            if (!category) { throw new Error(`>> No category with this ID: ${val}`) }
+            if (!category) { throw new Error(`No category with this ID: ${val}`) }
             return true
         })),
     ValidatoreMiddleware,
@@ -54,10 +61,10 @@ exports.createLandValidator = [
 exports.getLandValidator = [
     check("id")
         .isMongoId()
-        .withMessage(">> Invalid id")
+        .withMessage("Invalid id")
         .custom((async (val) => {
             const land = await landModel.findById(val)
-            if (!land) { throw new Error(`>> You cannot get a non-existent land: ${val}`) }
+            if (!land) { throw new Error(`You cannot get a non-existent land: ${val}`) }
             return true
         })),
     ValidatoreMiddleware,
@@ -66,14 +73,21 @@ exports.getLandValidator = [
 exports.updateteLandValidator = [
     check("id")
         .isMongoId()
-        .withMessage(">> Invalid id")
+        .withMessage("Invalid id")
         .custom((async (val) => {
             const land = await landModel.findById(val)
-            if (!land) { throw new Error(`>> You cannot update a non-existent land: ${val}`) }
+            if (!land) { throw new Error(`You cannot update a non-existent land: ${val}`) }
             return true
         })),
     check("title")
         .optional()
+        .custom(async (value) => {
+            const existingCategory = await categoryModel.findOne({ name: value });
+            if (existingCategory) {
+                throw new Error("This land already exists");
+            }
+            return true;
+        })
         .custom((val, { req }) => {
             req.body.slug = slugify(val)
             return true
@@ -82,7 +96,7 @@ exports.updateteLandValidator = [
         .optional()
         .custom((async (val) => {
             const category = await categoryModel.findById(val)
-            if (!category) { throw new Error(`>> No category with this ID: ${val}`) }
+            if (!category) { throw new Error(`No category with this ID: ${val}`) }
             return true
         })),
     ValidatoreMiddleware,
@@ -91,10 +105,10 @@ exports.updateteLandValidator = [
 exports.deleteLandValidator = [
     check("id")
         .isMongoId()
-        .withMessage(">> Invalid id")
+        .withMessage("Invalid id")
         .custom((async (val) => {
             const land = await landModel.findById(val)
-            if (!land) { throw new Error(`>> You cannot update a non-existent land: ${val}`) }
+            if (!land) { throw new Error(`You cannot update a non-existent land: ${val}`) }
             return true
         })),
     ValidatoreMiddleware,

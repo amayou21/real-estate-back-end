@@ -8,6 +8,7 @@ const homeRoute = require("./routes/homeRoute")
 const categoryRoute = require("./routes/categoryRoute")
 const globalError = require("./middleware/globallError")
 const ApiError = require("./utility/apiError")
+const cors = require("cors")
 // create server using express
 const app = express()
 
@@ -17,7 +18,14 @@ dotenv.config({ path: "config.env" })
 dbConnection()
 
 // middleware to read data comm's from body
-app.use(express.json())
+app.use(express.json());
+// Allow requests from a specific origin (http://localhost:3000 in this case)
+const corsOptions = {
+    origin: "http://localhost:3001",
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/v1/orders", ordeRoute)
@@ -31,6 +39,18 @@ app.all("*", (req, res, next) => {
 
 app.use(globalError)
 
-app.listen(8001, () => {
-    console.log("runing...");
-})
+
+
+const server = app.listen(process.env.PORT, () => {
+    console.log(`App Runing on port ${process.env.PORT}`);
+});
+
+
+// @desc   handle rejections outside express
+process.on("unhandledRejection", (err) => {
+    console.log(`unhandledRejection : ${err.name} || ${err.message}`);
+    server.close(() => {
+        console.log("shuting down...");
+        process.exit(1);
+    });
+});

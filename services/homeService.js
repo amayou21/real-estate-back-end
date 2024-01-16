@@ -51,8 +51,8 @@ exports.resizeHomeImages = asyncHandler(async (req, res, next) => {
             })
         );
 
-        next();
     }
+    next();
 });
 
 

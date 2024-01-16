@@ -10,12 +10,15 @@ exports.uploadImage = uploadImage("image")
 
 exports.resizeImage = asyncHandler(async (req, res, next) => {
     const fileName = `category-${uuidv4()}-${Date.now()}.jpeg`;
-    await sharp(req.file.buffer)
-        .resize(900, 900)
-        .toFormat("jpeg")
-        .jpeg({ quality: 100 })
-        .toFile(`uploads/categories/${fileName}`);
-    req.body.image = fileName;
+
+    if (req.file) {
+        await sharp(req.file.buffer)
+            .resize(900, 900)
+            .toFormat("jpeg")
+            .jpeg({ quality: 100 })
+            .toFile(`uploads/categories/${fileName}`);
+        req.body.image = fileName;
+    }
     next();
 });
 

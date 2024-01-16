@@ -1,14 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const ApiFeatures = require("../utility/ApiFeautures")
 
-exports.createOne = (model) => asyncHandler(async (req, res, next) => {
-    // console.log(req.files);
-    const doucement = await model.create(req.body)
-    res.status(201).json({ data: doucement })
+exports.createOne = (model) => asyncHandler(async (req, res) => {
+    const doc = await model.create(req.body)
+    res.status(201).json({ data: doc })
 })
 
 
-exports.getAll = (model) => asyncHandler(async (req, res, next) => {
+exports.getAll = (model) => asyncHandler(async (req, res) => {
     //@desc  documents count
     const docemuntCount = await model.countDocuments();
 

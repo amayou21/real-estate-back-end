@@ -23,6 +23,6 @@ rout.route('/')
 
 rout.route('/:id')
     .get(getCategoryValidator, getCategory)
-    .put(updateteCategoryValidator, updateCategory)
+    .put(updateteCategoryValidator, resizeImage, updateCategory)
     .delete(deleteCategoryValidator, deleteCategory)
 module.exports = rout
